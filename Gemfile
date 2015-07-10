@@ -10,8 +10,15 @@ gem 'spring', :group => :development
 
 gem 'sqlite3'
 
+gem 'foursquare2'
 
+gem 'figaro'
 
+group :development do
+  gem 'pry'
+  gem 'better_errors'
+  gem 'binding_of_caller'
+end 
 # To use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 

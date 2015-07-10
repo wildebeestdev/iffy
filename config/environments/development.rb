@@ -36,6 +36,10 @@ Rails.application.configure do
   # Raises helpful error messages.
   config.assets.raise_runtime_errors = true
 
+  config.foursquare = {
+    foursquare_id: ENV["foursquare_id"], 
+    foursquare_secret: ENV["foursquare_secret"]
+  }
   # Raises error for missing translations
   # config.action_view.raise_on_missing_translations = true
 end
