@@ -18,7 +18,7 @@ class RestaurantsController < ApplicationController
   end
 
   def restaurant
-binding.pry
+# binding.pry
     # @ll     = params[:ll]
     @ll     = '33.971677299999996, -118.4500588'
     @terms  = params[:terms]
