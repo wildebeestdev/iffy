@@ -1,39 +1,40 @@
 class RestaurantsController < ApplicationController
   before_action :set_restaurant, only: [:show, :update, :destroy]
 
-  # GET /restaurants
-  # GET /restaurants.json
   def index
-    @ll    = '33.9716350,-118.4499780'
-    @terms = 'starbucks, food, pizza'
-    client = Foursquare2::Client.new(:client_id => ENV["FOURSQUARE_ID"], :client_secret => ENV["FOURSQUARE_SECRET"], :api_version => '20140806')
-    @restaurants = client.search_venues(:ll => @ll, query: @terms)
 
+    @ll     = '33.9716350,-118.4499780'
+    @terms  = 'lunch'
+    @radius = '10000'
+    @limit  = 12
+    client  = Foursquare2::Client.new(:client_id => ENV["FOURSQUARE_ID"], :client_secret => ENV["FOURSQUARE_SECRET"], :api_version => '20140806')
+    @restaurants = client.explore_venues(ll: @ll, query: 'lunch, '+ @terms, venuePhotos: true, limit: @limit, radius: @radius)
 
-    render json: @restaurants
+    render json: @restaurants 
   end
 
-  # GET /restaurants/1
-  # GET /restaurants/1.json
   def show
     render json: @restaurant
   end
 
-  # POST /restaurants
-  # POST /restaurants.json
-  def create
-    @restaurant = Restaurant.new(restaurant_params)
+  def restaurant
+binding.pry
+    # @ll     = params[:ll]
+    @ll     = '33.971677299999996, -118.4500588'
+    @terms  = params[:terms]
+    @radius = '10000'
+    @limit  = 12
+    client  = Foursquare2::Client.new(:client_id => ENV["FOURSQUARE_ID"], :client_secret => ENV["FOURSQUARE_SECRET"], :api_version => '20140806')
+    @restaurants = client.explore_venues(ll: @ll, query: 'lunch, '+@terms, venuePhotos: true, radius: @radius, limit: @limit)
 
-    if @restaurant.save
-      render json: @restaurant, status: :created, location: @restaurant
-    else
-      render json: @restaurant.errors, status: :unprocessable_entity
-    end
+      render json: @restaurants
+ 
   end
 
-  # PATCH/PUT /restaurants/1
-  # PATCH/PUT /restaurants/1.json
+  def create
+  end
   def update
+
     @restaurant = Restaurant.find(params[:id])
 
     if @restaurant.update(restaurant_params)
@@ -43,8 +44,6 @@ class RestaurantsController < ApplicationController
     end
   end
 
-  # DELETE /restaurants/1
-  # DELETE /restaurants/1.json
   def destroy
     @restaurant.destroy
 
